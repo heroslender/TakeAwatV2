@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp"
+    android:background="@drawable/menu_list_item"
+    android:paddingStart="2dp"
+    android:paddingTop="2dp"
+    android:paddingEnd="5dp"
+    android:paddingBottom="2dp">
+
+
+    <TextView
+        android:id="@+id/tvDateDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Costeletas à salsicheiro"
+        android:textAppearance="@style/MaterialAlertDialog.Material3.Title.Text"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lblHalfDose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1/2 Dose: "
+        android:textAppearance="@style/MaterialAlertDialog.Material3.Body.Text"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/lblFullDose"
+        app:layout_constraintEnd_toStartOf="@+id/tvHalfDose"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tvHalfDose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3€"
+        android:textAppearance="@style/MaterialAlertDialog.Material3.Body.Text"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/lblFullDose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lblFullDose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 Dose: "
+        android:textAppearance="@style/MaterialAlertDialog.Material3.Body.Text"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvFullDose"
+        app:layout_constraintTop_toBottomOf="@+id/lblHalfDose" />
+    <TextView
+        android:id="@+id/tvFullDose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5€"
+        android:textAppearance="@style/MaterialAlertDialog.Material3.Body.Text"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblHalfDose" />
+</androidx.constraintlayout.widget.ConstraintLayout>
