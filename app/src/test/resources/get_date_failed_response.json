@@ -1,0 +1,9 @@
+{
+  "status": {
+    "status": "500",
+    "timestamp": 123123123,
+    "elapsed": 123123123,
+    "errorCode": 352,
+    "errorMessage": "Something went wrong"
+  }
+}

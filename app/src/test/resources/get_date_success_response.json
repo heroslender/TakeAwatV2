@@ -1,0 +1,30 @@
+{
+  "status": {
+    "status": "200",
+    "timestamp": 123123123,
+    "elapsed": 123123123
+  },
+  "data": [
+    {
+      "id": 1,
+      "name": "Menu 1",
+      "price": 10.0,
+      "halfPrice": 5.0,
+      "description": "Menu 1 Description"
+    },
+    {
+      "id": 2,
+      "name": "Menu 2",
+      "price": 20.0,
+      "halfPrice": 10.0,
+      "description": "Menu 2 Description"
+    },
+    {
+      "id": 3,
+      "name": "Menu 3",
+      "price": 30.0,
+      "halfPrice": 15.0,
+      "description": "Menu 3 Description"
+    }
+  ]
+}
