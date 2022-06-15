@@ -11,9 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Copy CI gradle.properties
-        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-
       # Cache gradle
       - name: Cache Gradle and wrapper
         uses: actions/cache@v2
