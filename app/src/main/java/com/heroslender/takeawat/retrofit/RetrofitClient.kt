@@ -1,7 +1,7 @@
 package com.heroslender.takeawat.retrofit
 
 import com.heroslender.takeawat.retrofit.response.ApiResponse
-import com.heroslender.takeawat.retrofit.response.Menu
+import com.heroslender.takeawat.domain.Menu
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -7,6 +7,7 @@
   "data": [
     {
       "id": 1,
+      "date": "2022-06-15",
       "name": "Menu 1",
       "price": 10.0,
       "halfPrice": 5.0,
@@ -14,6 +15,7 @@
     },
     {
       "id": 2,
+      "date": "2022-06-15",
       "name": "Menu 2",
       "price": 20.0,
       "halfPrice": 10.0,
@@ -21,6 +23,7 @@
     },
     {
       "id": 3,
+      "date": "2022-06-15",
       "name": "Menu 3",
       "price": 30.0,
       "halfPrice": 15.0,

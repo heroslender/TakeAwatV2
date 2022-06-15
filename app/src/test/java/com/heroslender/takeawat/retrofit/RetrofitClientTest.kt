@@ -1,9 +1,5 @@
 package com.heroslender.takeawat.retrofit
 
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.runner.RunWith
@@ -12,23 +8,7 @@ import java.net.HttpURLConnection
 import java.util.*
 
 @RunWith(MockitoJUnitRunner::class)
-class RetrofitClientTest {
-
-    private lateinit var mockWebServer: MockWebServer
-
-    private lateinit var retrofitClient: RetrofitClient
-
-    @Before
-    fun setUp() {
-        mockWebServer = MockWebServer()
-        mockWebServer.start()
-
-        retrofitClient = RetrofitServiceGenerator.generate(
-            RetrofitClient::class.java,
-            mockWebServer.url("/").toString(),
-            null
-        )
-    }
+class RetrofitClientTest : BaseRetrofitTest() {
 
     @Test
     fun `check mock file read returns something`() {
@@ -38,26 +18,17 @@ class RetrofitClientTest {
 
     @Test
     fun `fetch menu and check response Code 200 returned`() {
-        val response = MockResponse()
-            .setResponseCode(HttpURLConnection.HTTP_OK)
-            .setBody(mockFileRead("get_date_success_response.json"))
-        mockWebServer.enqueue(response)
+        enqueueResponse("get_date_success_response.json")
 
         val actualResponse = retrofitClient.getMenu(Date()).blockingFirst()
 
-        assertEquals(
-            response.toString().contains("200"),
-            actualResponse.status.status.contains("200")
-        )
+        assertTrue(actualResponse.status.status.contains("200"))
         assertNull(actualResponse.status.errorCode)
     }
 
     @Test
     fun `fetch menu and check expected response`() {
-        val response = MockResponse()
-            .setResponseCode(HttpURLConnection.HTTP_OK)
-            .setBody(mockFileRead("get_date_success_response.json"))
-        mockWebServer.enqueue(response)
+        enqueueResponse("get_date_success_response.json")
 
         val res = retrofitClient.getMenu(Date()).blockingFirst()
 
@@ -73,20 +44,12 @@ class RetrofitClientTest {
 
     @Test
     fun `fetch menu and check for failed response`() {
-        val response = MockResponse()
-            .setResponseCode(HttpURLConnection.HTTP_OK)
-            .setBody(mockFileRead("get_date_failed_response.json"))
-        mockWebServer.enqueue(response)
+        enqueueResponse("get_date_failed_response.json")
 
         val res = retrofitClient.getMenu(Date()).blockingFirst()
 
         assertEquals("500", res.status.status)
         assertNotNull(res.status.errorCode)
         assertEquals("Something went wrong", res.status.errorMessage)
-    }
-
-    @After
-    fun tearDown() {
-        mockWebServer.shutdown()
     }
 }
