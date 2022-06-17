@@ -3,9 +3,9 @@ package com.heroslender.takeawat.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.heroslender.takeawat.NumberUtils
 import com.heroslender.takeawat.databinding.MenuListItemBinding
 import com.heroslender.takeawat.domain.Menu
+import com.heroslender.takeawat.utils.NumberUtils
 
 class MenuListAdapter : RecyclerView.Adapter<MenuListAdapter.MenuListViewHolder>() {
     private val menuList: MutableList<Menu> = mutableListOf()
