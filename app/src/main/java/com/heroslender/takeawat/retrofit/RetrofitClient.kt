@@ -9,9 +9,9 @@ import java.util.*
 
 interface RetrofitClient {
 
-    @GET("/v1/menu")
+    @GET("/takeawat/v1/menu")
     fun getMenu(@Query("date") date: Date): Observable<ApiResponse<List<Menu>>>
 
-    @GET("/v1/menu")
+    @GET("/takeawat/v1/menu")
     fun getMenus(): Observable<ApiResponse<Map<Date, List<Menu>>>>
 }
