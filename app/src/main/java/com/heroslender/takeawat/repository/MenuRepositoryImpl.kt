@@ -27,7 +27,7 @@ class MenuRepositoryImpl(
             } else if (response.status.status.toInt() !in 200..219) {
                 DataState.error("Unknown error with status code " + response.status.status)
             } else {
-                DataState.success(response.data!!)
+                DataState.success(response.data!!.toSortedMap())
             }
         }
     }
