@@ -21,8 +21,9 @@ class MenuDateListAdapter(
             val calendar = Calendar.getInstance().apply {
                 timeInMillis = date.time
             }
-            binding.tvDateDay.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
-            binding.tvDateMonth.text = getMonthForNumber(calendar.get(Calendar.MONTH))
+            binding.tvDateDay.text = calendar.get(Calendar.DAY_OF_MONTH)
+                .toString() + " " + getMonthForNumber(calendar.get(Calendar.MONTH))
+            binding.tvDateMonth.text = getWeekDay(calendar.get(Calendar.DAY_OF_WEEK))
 
             binding.rvDateListItem.setOnClickListener {
                 if (selected == this) {
@@ -44,18 +45,29 @@ class MenuDateListAdapter(
         }
 
         private fun getMonthForNumber(month: Int): String = when (month) {
-            1 -> "Jan"
-            2 -> "Fev"
-            3 -> "Mar"
-            4 -> "Abr"
-            5 -> "Mai"
-            6 -> "Jun"
-            7 -> "Jul"
-            8 -> "Ago"
-            9 -> "Set"
-            10 -> "Out"
-            11 -> "Nov"
-            12 -> "Dez"
+            0 -> "Jan"
+            1 -> "Fev"
+            2 -> "Mar"
+            3 -> "Abr"
+            4 -> "Mai"
+            5 -> "Jun"
+            6 -> "Jul"
+            7 -> "Ago"
+            8 -> "Set"
+            9 -> "Out"
+            10 -> "Nov"
+            11 -> "Dez"
+            else -> "Erro"
+        }
+
+        private fun getWeekDay(day: Int): String = when (day) {
+            1 -> "Domingo"
+            2 -> "Segunda"
+            3 -> "Terça"
+            4 -> "Quarta"
+            5 -> "Quinta"
+            6 -> "Sexta"
+            7 -> "Sábado"
             else -> "Erro"
         }
     }
