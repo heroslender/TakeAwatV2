@@ -1,27 +1,27 @@
 package com.heroslender.takeawat.ui.menulist
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import com.heroslender.takeawat.R
 import com.heroslender.takeawat.adapter.MenuDateListAdapter
 import com.heroslender.takeawat.adapter.MenuListAdapter
-import com.heroslender.takeawat.databinding.ActivityMenuBinding
+import com.heroslender.takeawat.base.BaseFragment
+import com.heroslender.takeawat.databinding.FragmentMenuBinding
 import java.util.*
 
-class MenuActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMenuBinding
+class MenuFragment : BaseFragment<FragmentMenuBinding>() {
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMenuBinding
+        get() = FragmentMenuBinding::inflate
 
     private val viewModel: MenuViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         Thread.sleep(1000)
-        super.onCreate(savedInstanceState)
-        binding = ActivityMenuBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
 
         setupView()
     }
@@ -33,7 +33,7 @@ class MenuActivity : AppCompatActivity() {
             binding.rvMenuList.apply {
                 startAnimation(
                     AnimationUtils.loadAnimation(
-                        this@MenuActivity,
+                        this@MenuFragment.context,
                         R.anim.menu_list_enter
                     )
                 )
@@ -53,7 +53,7 @@ class MenuActivity : AppCompatActivity() {
             binding.rvMenuList.apply {
                 startAnimation(
                     AnimationUtils.loadAnimation(
-                        this@MenuActivity,
+                        this@MenuFragment.context,
                         R.anim.menu_list_leave
                     )
                 )

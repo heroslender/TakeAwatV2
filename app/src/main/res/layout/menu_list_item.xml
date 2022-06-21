@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="5dp"
     android:layout_marginTop="5dp"
     android:layout_marginEnd="5dp"
     android:background="@drawable/menu_list_item"
@@ -12,6 +11,15 @@
     android:paddingEnd="5dp"
     android:paddingBottom="2dp">
 
+    <View
+        android:id="@+id/viewBar"
+        android:layout_width="3dp"
+        android:layout_height="0dp"
+        android:background="@drawable/menu_list_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvMenuName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvMenuName"
@@ -20,16 +28,17 @@
         android:text="Costeletas à salsicheiro"
         android:textAppearance="@style/MaterialAlertDialog.Material3.Title.Text"
         android:textSize="14sp"
+        android:paddingStart="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/viewBar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/lblHalfDose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="?attr/colorPrimary"
         android:text="1/2 Dose: "
+        android:textColor="?attr/colorPrimary"
         android:textSize="10sp"
         app:layout_constraintBottom_toTopOf="@+id/lblFullDose"
         app:layout_constraintEnd_toStartOf="@+id/tvHalfDose"
@@ -39,8 +48,8 @@
         android:id="@+id/tvHalfDose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="?attr/colorPrimary"
         android:text="3€"
+        android:textColor="?attr/colorPrimary"
         android:textSize="10sp"
         app:layout_constraintBottom_toTopOf="@+id/lblFullDose"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,8 +59,8 @@
         android:id="@+id/lblFullDose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="?attr/colorPrimary"
         android:text="1 Dose: "
+        android:textColor="?attr/colorPrimary"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvFullDose"
@@ -61,8 +70,8 @@
         android:id="@+id/tvFullDose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="?attr/colorPrimary"
         android:text="5€"
+        android:textColor="?attr/colorPrimary"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

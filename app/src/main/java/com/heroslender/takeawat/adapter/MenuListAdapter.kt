@@ -21,7 +21,6 @@ class MenuListAdapter : RecyclerView.Adapter<MenuListAdapter.MenuListViewHolder>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuListViewHolder {
-        println(itemCount)
         return MenuListViewHolder(
             MenuListItemBinding.inflate(
                 LayoutInflater.from(parent.context),
