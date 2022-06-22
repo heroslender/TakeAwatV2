@@ -29,6 +29,7 @@ open class BaseRetrofitTest {
     }
 
     fun enqueueResponse(fileName: String, statusCode: Int = HttpURLConnection.HTTP_OK) {
+        println("Enqueuing response...")
         val response = MockResponse()
             .setResponseCode(statusCode)
             .setBody(mockFileRead(fileName))

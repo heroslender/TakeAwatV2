@@ -4,7 +4,6 @@ import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
-import java.net.HttpURLConnection
 import java.util.*
 
 @RunWith(MockitoJUnitRunner::class)
@@ -13,7 +12,7 @@ class RetrofitClientTest : BaseRetrofitTest() {
     @Test
     fun `check mock file read returns something`() {
         val content = mockFileRead("get_date_success_response.json")
-        assertNotNull(content)
+        assertTrue(content.isNotEmpty())
     }
 
     @Test
