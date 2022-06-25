@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.heroslender.takeawat.R
 import com.heroslender.takeawat.adapter.MenuDateListAdapter
@@ -58,6 +59,12 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
                     )
                 )
                 visibility = View.VISIBLE
+            }
+        }
+
+        viewModel.uiState.observeForever {
+            if (it is MenuUiState.ErrorState) {
+                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
             }
         }
 
