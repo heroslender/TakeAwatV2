@@ -62,10 +62,8 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
             }
         }
 
-        viewModel.uiState.observeForever {
-            if (it is MenuUiState.ErrorState) {
-                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-            }
+        viewModel.failure.observeForever {
+            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
         }
 
         viewModel.fetchDates()

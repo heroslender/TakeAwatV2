@@ -10,15 +10,16 @@ import com.heroslender.takeawat.repository.DataState
 import com.heroslender.takeawat.repository.MenuRepository
 import com.heroslender.takeawat.repository.MenuRepositoryImpl
 import com.heroslender.takeawat.retrofit.RetrofitServiceGenerator
+import com.heroslender.takeawat.utils.Failure
 import java.util.*
 
 class MenuViewModel(application: Application) : AndroidViewModel(application) {
     private val menuRepository: MenuRepository =
         MenuRepositoryImpl(RetrofitServiceGenerator.getClient(getApplication()))
 
-    private val _uiState = MutableLiveData<MenuUiState>()
-    val uiState: LiveData<MenuUiState>
-        get() = _uiState
+    private val _failure = MutableLiveData<Failure>()
+    val failure: LiveData<Failure>
+        get() = _failure
 
     private val _menus: MutableLiveData<List<Menu>> = MutableLiveData()
     val menus: LiveData<List<Menu>>
@@ -29,8 +30,6 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
         get() = _dates
 
     fun fetchMenus(date: Date = Date()) {
-        _uiState.postValue(MenuUiState.LoadingState)
-
         menuRepository.getMenus(date)
             .subscribe(
                 { dataState ->
@@ -38,9 +37,8 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                         is DataState.Success -> {
                             val data = dataState.data
                             _menus.postValue(data)
-                            _uiState.postValue(MenuUiState.ContentState)
                         }
-                        is DataState.Error -> _uiState.postValue(MenuUiState.ErrorState(dataState.error))
+                        is DataState.Error -> _failure.postValue(Failure(dataState.error))
                     }
                 }, { throwable ->
                     Log.i("MenuViewModel", throwable.message ?: "")
@@ -56,9 +54,8 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                         is DataState.Success -> {
                             val data = dataState.data
                             _dates.postValue(data.mapNotNull { it.value.firstOrNull()?.date })
-                            _uiState.postValue(MenuUiState.DatesContentState)
                         }
-                        is DataState.Error -> _uiState.postValue(MenuUiState.ErrorState(dataState.error))
+                        is DataState.Error -> _failure.postValue(Failure(dataState.error))
                     }
                 }, { throwable ->
                     Log.i("MenuViewModel1", throwable.message ?: "")
