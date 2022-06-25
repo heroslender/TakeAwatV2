@@ -1,10 +1,10 @@
 package com.heroslender.takeawat.repository
 
+import com.heroslender.takeawat.blockingFirst
 import com.heroslender.takeawat.retrofit.BaseRetrofitTest
 import org.junit.Before
 import org.junit.Test
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*

@@ -1,5 +1,7 @@
 package com.heroslender.takeawat.retrofit
 
+import com.heroslender.takeawat.mockFileRead
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.runner.RunWith
@@ -19,7 +21,7 @@ class RetrofitClientTest : BaseRetrofitTest() {
     fun `fetch menu and check response Code 200 returned`() {
         enqueueResponse("get_date_success_response.json")
 
-        val actualResponse = retrofitClient.getMenu(Date()).blockingFirst()
+        val actualResponse = runBlocking { retrofitClient.getMenu(Date()) }
 
         assertTrue(actualResponse.status.status.contains("200"))
         assertNull(actualResponse.status.errorCode)
@@ -29,7 +31,7 @@ class RetrofitClientTest : BaseRetrofitTest() {
     fun `fetch menu and check expected response`() {
         enqueueResponse("get_date_success_response.json")
 
-        val res = retrofitClient.getMenu(Date()).blockingFirst()
+        val res = runBlocking { retrofitClient.getMenu(Date()) }
 
         assertNotNull(res.data)
 
@@ -45,7 +47,7 @@ class RetrofitClientTest : BaseRetrofitTest() {
     fun `fetch menu and check for failed response`() {
         enqueueResponse("get_date_failed_response.json")
 
-        val res = retrofitClient.getMenu(Date()).blockingFirst()
+        val res = runBlocking { retrofitClient.getMenu(Date()) }
 
         assertEquals("500", res.status.status)
         assertNotNull(res.status.errorCode)

@@ -41,7 +41,6 @@ object RetrofitServiceGenerator {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(httpBuilder.build())
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .addConverterFactory(DateConverterFactory.create())
             .build()

@@ -1,6 +1,6 @@
 package com.heroslender.takeawat.repository
 
-sealed interface DataState<T> {
+sealed interface DataState<out T> {
     data class Success<T>(val data: T) : DataState<T>
     data class Error<T>(val error: String) : DataState<T>
 

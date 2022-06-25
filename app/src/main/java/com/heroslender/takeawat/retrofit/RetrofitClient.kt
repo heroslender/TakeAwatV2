@@ -1,8 +1,7 @@
 package com.heroslender.takeawat.retrofit
 
-import com.heroslender.takeawat.retrofit.response.ApiResponse
 import com.heroslender.takeawat.domain.Menu
-import io.reactivex.rxjava3.core.Observable
+import com.heroslender.takeawat.retrofit.response.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 import java.util.*
@@ -10,8 +9,8 @@ import java.util.*
 interface RetrofitClient {
 
     @GET("/takeawat/v1/menu")
-    fun getMenu(@Query("date") date: Date): Observable<ApiResponse<List<Menu>>>
+    suspend fun getMenu(@Query("date") date: Date): ApiResponse<List<Menu>>
 
     @GET("/takeawat/v1/menu")
-    fun getMenus(): Observable<ApiResponse<Map<Date, List<Menu>>>>
+    suspend fun getMenus(): ApiResponse<Map<Date, List<Menu>>>
 }

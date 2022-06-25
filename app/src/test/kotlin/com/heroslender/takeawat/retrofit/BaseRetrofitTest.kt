@@ -1,5 +1,6 @@
 package com.heroslender.takeawat.retrofit
 
+import com.heroslender.takeawat.mockFileRead
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
