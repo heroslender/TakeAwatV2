@@ -9,3 +9,10 @@ sealed interface DataState<out T> {
         fun <T> error(error: String): DataState<T> = Error(error)
     }
 }
+
+inline fun <T, R> DataState<T>.map(op: T.() -> R): DataState<R> {
+    return when (this) {
+        is DataState.Success -> op.invoke(data).let { mapped -> DataState.success(mapped) }
+        is DataState.Error -> return DataState.error(error)
+    }
+}

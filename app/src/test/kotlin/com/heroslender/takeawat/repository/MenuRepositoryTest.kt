@@ -1,10 +1,12 @@
 package com.heroslender.takeawat.repository
 
-import com.heroslender.takeawat.blockingFirst
+import com.heroslender.takeawat.blockingLast
+import com.heroslender.takeawat.repository.database.MenuDaoFake
 import com.heroslender.takeawat.retrofit.BaseRetrofitTest
 import org.junit.Before
 import org.junit.Test
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
@@ -16,14 +18,14 @@ class MenuRepositoryTest : BaseRetrofitTest() {
 
     @Before
     fun setUp() {
-        repository = MenuRepositoryImpl(retrofitClient)
+        repository = MenuRepositoryImpl(MenuDaoFake(), retrofitClient)
     }
 
     @Test
     fun `fetch menu and check success DataState`() {
         enqueueResponse("get_date_success_response.json")
 
-        val response = repository.getMenus(Date()).blockingFirst()
+        val response = repository.getMenus(Date()).blockingLast()
 
         assertTrue(response is DataState.Success)
     }
@@ -32,7 +34,7 @@ class MenuRepositoryTest : BaseRetrofitTest() {
     fun `fetch menu and check valid data`() {
         enqueueResponse("get_date_success_response.json")
 
-        val response = repository.getMenus(Date()).blockingFirst()
+        val response = repository.getMenus(Date()).blockingLast()
 
         val data = (response as DataState.Success).data
         assertEquals(3, data.size)
@@ -46,7 +48,7 @@ class MenuRepositoryTest : BaseRetrofitTest() {
     fun `fetch menu and check error DataState`() {
         enqueueResponse("get_date_failed_response.json")
 
-        val response = repository.getMenus(Date()).blockingFirst()
+        val response = repository.getMenus(Date()).blockingLast()
 
         assertTrue(response is DataState.Error)
     }
@@ -55,7 +57,8 @@ class MenuRepositoryTest : BaseRetrofitTest() {
     fun `fetch menu and check expected error data`() {
         enqueueResponse("get_date_failed_response.json")
 
-        val response = repository.getMenus(Date()).blockingFirst()
+        val response = repository.getMenus(Date()).blockingLast()
+        println(response)
 
         assertEquals("Something went wrong", (response as DataState.Error).error)
     }

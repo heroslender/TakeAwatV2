@@ -2,14 +2,15 @@ package com.heroslender.takeawat
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 fun mockFileRead(fileName: String): String {
-    val resource = object {}.javaClass.classLoader.also { println("isnull? ${it == null}") }
-        ?.getResource(fileName).also { println("resource isnull? ${it == null}") } ?: return ""
-    return resource.readText().also { println("mockFileRead:  $it") }
+    val resource = object {}.javaClass.classLoader
+        ?.getResource(fileName)?: return ""
+    return resource.readText()
 }
 
-fun <T> Flow<T>.blockingFirst(): T = runBlocking {
-    first()
+fun <T> Flow<T>.blockingLast(): T = runBlocking {
+    last()
 }

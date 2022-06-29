@@ -8,5 +8,5 @@ import java.util.*
 interface MenuRepository {
     fun getMenus(date: Date): Flow<DataState<List<Menu>>>
 
-    fun getMenus(): Flow<DataState<Map<Date, List<Menu>>>>
+    fun getDates(): Flow<DataState<List<Date>>>
 }
