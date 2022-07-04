@@ -7,7 +7,7 @@ plugins {
 def retrofitVersion = '2.9.0'
 def okhttpInterceptorVersion = '4.6.0'
 def rxAdapterVersion = '2.9.0'
-def lifecycle_version = "2.5.0-rc02"
+def lifecycle_version = "2.5.0"
 def coroutines_version = "1.6.2"
 def room_version = "2.4.2"
 
