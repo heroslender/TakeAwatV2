@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 def retrofitVersion = '2.9.0'
@@ -70,6 +71,10 @@ dependencies {
     // Room components
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    // Dependency Injection Components
+    implementation "com.google.dagger:hilt-android:2.42"
+    kapt "com.google.dagger:hilt-android-compiler:2.42"
 
     // Retrofit components
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"

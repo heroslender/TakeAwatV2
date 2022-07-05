@@ -1,28 +1,24 @@
 package com.heroslender.takeawat.ui.menulist
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Room
 import com.heroslender.takeawat.domain.Menu
 import com.heroslender.takeawat.repository.DataState
 import com.heroslender.takeawat.repository.MenuRepository
-import com.heroslender.takeawat.repository.MenuRepositoryImpl
-import com.heroslender.takeawat.repository.database.AppDatabase
-import com.heroslender.takeawat.retrofit.RetrofitServiceGenerator
 import com.heroslender.takeawat.utils.Failure
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class MenuViewModel(application: Application) : AndroidViewModel(application) {
-    private val menuRepository: MenuRepository = MenuRepositoryImpl(
-        Room.databaseBuilder(application, AppDatabase::class.java, "db").build().menuDao(),
-        RetrofitServiceGenerator.getClient(getApplication())
-    )
+@HiltViewModel
+class MenuViewModel @Inject constructor(
+    private val menuRepository: MenuRepository
+) : ViewModel() {
 
     private val _failure = MutableLiveData<Failure>()
     val failure: LiveData<Failure>

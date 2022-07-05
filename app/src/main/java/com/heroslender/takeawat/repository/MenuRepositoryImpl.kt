@@ -10,22 +10,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.util.*
+import javax.inject.Inject
 
-class MenuRepositoryImpl(
+class MenuRepositoryImpl @Inject constructor(
     private val menuDao: MenuDao,
     private val retrofitClient: RetrofitClient,
 ) : MenuRepository {
     override fun getMenus(date: Date): Flow<DataState<List<Menu>>> = flow {
-        println(1)
         // Send cached data
         val findByDate = menuDao.findByDate(date.time).map { it.toMenu() }
-        println(2)
         emit(DataState.success(findByDate))
 
-        println(3)
         // Update data from the API
         val response = retrofitClient.getMenu(date)
-        println(4)
         println("Response: $response")
         val value = if (response.status.errorCode != null) {
             DataState.error(response.status.errorMessage!!)
@@ -39,7 +36,7 @@ class MenuRepositoryImpl(
         emit(value)
     }.flowOn(Dispatchers.IO)
 
-    override fun getDates(): Flow<DataState<List<Date>>> = flow<DataState<List<Date>>> {
+    override fun getDates(): Flow<DataState<List<Date>>> = flow {
         // Send cached data
         val dates = menuDao.getAllDates().map { timestamp -> Date(timestamp) }
         emit(DataState.success(dates))

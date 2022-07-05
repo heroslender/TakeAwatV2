@@ -12,8 +12,10 @@ import com.heroslender.takeawat.adapter.MenuDateListAdapter
 import com.heroslender.takeawat.adapter.MenuListAdapter
 import com.heroslender.takeawat.base.BaseFragment
 import com.heroslender.takeawat.databinding.FragmentMenuBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@AndroidEntryPoint
 class MenuFragment : BaseFragment<FragmentMenuBinding>() {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMenuBinding
         get() = FragmentMenuBinding::inflate
