@@ -37,7 +37,7 @@ android {
         }
 
         debug {
-            buildConfigField 'String', 'BASE_URL', '"https://api.heroslender.com"'
+            buildConfigField 'String', 'BASE_URL', '"http://localhost:25001"'
         }
     }
 
@@ -49,6 +49,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.heroslender.takeawat'
 }
 
 dependencies {

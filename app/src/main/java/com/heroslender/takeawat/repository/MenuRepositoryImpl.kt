@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.net.ConnectException
 import java.util.*
 import javax.inject.Inject
 
@@ -24,16 +25,9 @@ class MenuRepositoryImpl @Inject constructor(
         // Update data from the API
         val response = retrofitClient.getMenu(date)
         println("Response: $response")
-        val value = if (response.status.errorCode != null) {
-            DataState.error(response.status.errorMessage!!)
-        } else if (response.status.status.toInt() !in 200..219) {
-            DataState.error("Unknown error with status code " + response.status.status)
-        } else {
-            menuDao.insertAll(*response.data!!.map { it.toMenuEntity() }.toTypedArray())
-            DataState.success(response.data)
-        }
+        menuDao.insertAll(*response.map { it.toMenuEntity() }.toTypedArray())
 
-        emit(value)
+        emit(DataState.success(response))
     }.flowOn(Dispatchers.IO)
 
     override fun getDates(): Flow<DataState<List<Date>>> = flow {
@@ -42,15 +36,14 @@ class MenuRepositoryImpl @Inject constructor(
         emit(DataState.success(dates))
 
         // Update data from the API
-        val response = retrofitClient.getMenus()
-        val value = if (response.status.errorCode != null) {
-            DataState.error(response.status.errorMessage!!)
-        } else if (response.status.status.toInt() !in 200..219) {
-            DataState.error("Unknown error with status code " + response.status.status)
-        } else {
-            DataState.success(response.data!!.keys.toList().sorted())
+        try {
+            val response = retrofitClient.getMenus()
+            emit(DataState.success(response.keys.toList().sorted()))
+        } catch (e: ConnectException) {
+            emit(DataState.error("Failed to connect to the remote server."))
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            emit(DataState.error("Something went wrong!"))
         }
-
-        emit(value)
     }.flowOn(Dispatchers.IO)
 }

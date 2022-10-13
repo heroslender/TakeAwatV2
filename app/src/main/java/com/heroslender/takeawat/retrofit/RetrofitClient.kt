@@ -1,16 +1,15 @@
 package com.heroslender.takeawat.retrofit
 
 import com.heroslender.takeawat.domain.Menu
-import com.heroslender.takeawat.retrofit.response.ApiResponse
 import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.Path
 import java.util.*
 
 interface RetrofitClient {
 
-    @GET("/takeawat/v1/menu")
-    suspend fun getMenu(@Query("date") date: Date): ApiResponse<List<Menu>>
+    @GET("/takeawat/v1/menu/{date}")
+    suspend fun getMenu(@Path("date") date: Date): List<Menu>
 
     @GET("/takeawat/v1/menu")
-    suspend fun getMenus(): ApiResponse<Map<Date, List<Menu>>>
+    suspend fun getMenus(): Map<Date, List<Menu>>
 }
