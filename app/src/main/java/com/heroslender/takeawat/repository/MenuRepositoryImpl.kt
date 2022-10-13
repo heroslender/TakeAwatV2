@@ -5,6 +5,7 @@ import com.heroslender.takeawat.repository.database.MenuDao
 import com.heroslender.takeawat.repository.mapper.toMenu
 import com.heroslender.takeawat.repository.mapper.toMenuEntity
 import com.heroslender.takeawat.retrofit.RetrofitClient
+import com.heroslender.takeawat.retrofit.result.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -23,7 +24,7 @@ class MenuRepositoryImpl @Inject constructor(
         emit(DataState.success(findByDate))
 
         // Update data from the API
-        val response = retrofitClient.getMenu(date)
+        val response = (retrofitClient.getMenu(date) as Result.Success).data
         println("Response: $response")
         menuDao.insertAll(*response.map { it.toMenuEntity() }.toTypedArray())
 
@@ -37,7 +38,7 @@ class MenuRepositoryImpl @Inject constructor(
 
         // Update data from the API
         try {
-            val response = retrofitClient.getMenus()
+            val response = (retrofitClient.getMenus() as Result.Success).data
             emit(DataState.success(response.keys.toList().sorted()))
         } catch (e: ConnectException) {
             emit(DataState.error("Failed to connect to the remote server."))

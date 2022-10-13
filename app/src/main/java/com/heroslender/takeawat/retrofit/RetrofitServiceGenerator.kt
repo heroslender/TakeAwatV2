@@ -3,12 +3,12 @@ package com.heroslender.takeawat.retrofit
 import android.content.Context
 import android.util.Log
 import com.heroslender.takeawat.BuildConfig
+import com.heroslender.takeawat.retrofit.result.CallResultAdapterFactory
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
@@ -43,6 +43,7 @@ object RetrofitServiceGenerator {
             .client(httpBuilder.build())
             .addConverterFactory(GsonConverterFactory.create())
             .addConverterFactory(DateConverterFactory.create())
+            .addCallAdapterFactory(CallResultAdapterFactory.create())
             .build()
         return retrofit.create(serviceClass)
     }

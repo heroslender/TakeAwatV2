@@ -1,11 +1,11 @@
 package com.heroslender.takeawat.retrofit
 
 import com.heroslender.takeawat.mockFileRead
+import com.heroslender.takeawat.retrofit.result.HttpStatus
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
-import java.net.HttpURLConnection
 
 open class BaseRetrofitTest {
     lateinit var mockWebServer: MockWebServer
@@ -29,9 +29,9 @@ open class BaseRetrofitTest {
         mockWebServer.shutdown()
     }
 
-    fun enqueueResponse(fileName: String, statusCode: Int = HttpURLConnection.HTTP_OK) {
+    fun enqueueResponse(fileName: String, statusCode: HttpStatus = HttpStatus.OK) {
         val response = MockResponse()
-            .setResponseCode(statusCode)
+            .setResponseCode(statusCode.value)
             .setBody(mockFileRead(fileName))
 
         mockWebServer.enqueue(response)
