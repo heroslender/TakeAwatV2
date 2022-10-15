@@ -3,6 +3,7 @@ package com.heroslender.takeawat.repository
 import com.heroslender.takeawat.blockingLast
 import com.heroslender.takeawat.repository.database.MenuDaoFake
 import com.heroslender.takeawat.retrofit.BaseRetrofitTest
+import com.heroslender.takeawat.retrofit.result.HttpStatus
 import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -46,7 +47,7 @@ class MenuRepositoryTest : BaseRetrofitTest() {
 
     @Test
     fun `fetch menu and check error DataState`() {
-        enqueueResponse("get_date_failed_response.json")
+        enqueueResponse("get_date_failed_response.json", HttpStatus.BAD_REQUEST)
 
         val response = repository.getMenus(Date()).blockingLast()
 
@@ -55,11 +56,13 @@ class MenuRepositoryTest : BaseRetrofitTest() {
 
     @Test
     fun `fetch menu and check expected error data`() {
-        enqueueResponse("get_date_failed_response.json")
+        enqueueResponse("get_date_failed_response.json", HttpStatus.BAD_REQUEST)
 
         val response = repository.getMenus(Date()).blockingLast()
-        println(response)
 
-        assertEquals("Something went wrong", (response as DataState.Error).error)
+        assertEquals(
+            "Received response with code ${HttpStatus.BAD_REQUEST.value}!",
+            (response as DataState.Error).error
+        )
     }
 }

@@ -5,12 +5,15 @@ import com.heroslender.takeawat.repository.database.MenuDao
 import com.heroslender.takeawat.repository.mapper.toMenu
 import com.heroslender.takeawat.repository.mapper.toMenuEntity
 import com.heroslender.takeawat.retrofit.RetrofitClient
+import com.heroslender.takeawat.retrofit.result.NetworkError
+import com.heroslender.takeawat.retrofit.result.RemoteServiceHttpError
 import com.heroslender.takeawat.retrofit.result.Result
+import com.heroslender.takeawat.retrofit.result.UnexpectedError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import java.net.ConnectException
 import java.util.*
 import javax.inject.Inject
 
@@ -24,8 +27,13 @@ class MenuRepositoryImpl @Inject constructor(
         emit(DataState.success(findByDate))
 
         // Update data from the API
-        val response = (retrofitClient.getMenu(date) as Result.Success).data
-        println("Response: $response")
+        val menuResult = retrofitClient.getMenu(date)
+        if (menuResult is Result.Failure) {
+            handleRetrofitFailure<List<Menu>>(menuResult)
+            return@flow
+        }
+
+        val response = (menuResult as Result.Success).data
         menuDao.insertAll(*response.map { it.toMenuEntity() }.toTypedArray())
 
         emit(DataState.success(response))
@@ -37,14 +45,25 @@ class MenuRepositoryImpl @Inject constructor(
         emit(DataState.success(dates))
 
         // Update data from the API
-        try {
-            val response = (retrofitClient.getMenus() as Result.Success).data
-            emit(DataState.success(response.keys.toList().sorted()))
-        } catch (e: ConnectException) {
-            emit(DataState.error("Failed to connect to the remote server."))
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-            emit(DataState.error("Something went wrong!"))
+        val menusResult = retrofitClient.getMenus()
+        if (menusResult is Result.Failure) {
+            handleRetrofitFailure<List<Date>>(menusResult)
+            return@flow
+        }
+
+        val response = (menusResult as Result.Success).data
+        emit(DataState.success(response.keys.toList().sorted()))
+
+        for (list in response.values) {
+            menuDao.insertAll(*list.map { it.toMenuEntity() }.toTypedArray())
         }
     }.flowOn(Dispatchers.IO)
+
+    private suspend fun <T> FlowCollector<DataState<T>>.handleRetrofitFailure(failure: Result.Failure) {
+        when (val error = failure.error) {
+            is NetworkError,
+            is UnexpectedError -> emit(DataState.error(error.message ?: "Something went wrong!"))
+            is RemoteServiceHttpError -> emit(DataState.error("Received response with code ${error.httpStatusCode}!"))
+        }
+    }
 }
