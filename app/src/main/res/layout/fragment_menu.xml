@@ -32,15 +32,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvDateList" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMenuList"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblEmenta"
-        tools:listitem="@layout/menu_list_item" />
+        android:id="@+id/refreshMenuList">
+
+        <androidx.recyclerview.widget.RecyclerView
+            app:layoutManager="LinearLayoutManager"
+            android:id="@+id/rvMenuList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/menu_list_item" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

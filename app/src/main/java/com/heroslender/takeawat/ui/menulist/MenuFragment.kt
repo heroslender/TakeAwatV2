@@ -46,12 +46,17 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
 
         binding.rvDateList.adapter = menuDateListAdapter
         binding.rvMenuList.adapter = menuListAdapter
+        binding.refreshMenuList.setOnRefreshListener {
+            viewModel.fetchDates()
+            viewModel.fetchMenus(Date())
+        }
 
         viewModel.dates.observeForever { dates ->
             menuDateListAdapter.setDates(dates)
         }
 
         viewModel.menus.observeForever { menus ->
+            binding.refreshMenuList.isRefreshing = false
             menuListAdapter.setMenuList(menus)
             binding.rvMenuList.apply {
                 startAnimation(

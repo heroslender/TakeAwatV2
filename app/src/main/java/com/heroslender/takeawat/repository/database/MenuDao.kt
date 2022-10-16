@@ -1,9 +1,6 @@
 package com.heroslender.takeawat.repository.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface MenuDao {
@@ -19,7 +16,7 @@ interface MenuDao {
     @Query("SELECT * FROM menus WHERE date=:date")
     fun findByDate(date: Long): List<MenuEntity>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg menu: MenuEntity)
 
     @Delete
