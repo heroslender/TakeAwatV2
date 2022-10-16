@@ -37,7 +37,7 @@ android {
         }
 
         debug {
-            buildConfigField 'String', 'BASE_URL', '"http://localhost:25001"'
+            buildConfigField 'String', 'BASE_URL', '"http://10.0.2.2:25001"'
         }
     }
 
