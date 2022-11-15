@@ -10,10 +10,14 @@ import com.heroslender.takeawat.repository.DataState
 import com.heroslender.takeawat.repository.MenuRepository
 import com.heroslender.takeawat.utils.Failure
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.abs
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(
@@ -32,38 +36,91 @@ class MenuViewModel @Inject constructor(
     val dates: LiveData<List<Date>>
         get() = _dates
 
-    fun fetchMenus(date: Date = Date()) {
-        viewModelScope.launch {
-            menuRepository.getMenus(date)
-                .catch { throwable ->
-                    Log.i("MenuViewModel", throwable.message ?: "")
-                    _failure.postValue(Failure(throwable.message ?: "Unknown error"))
-                }
-                .collect { dataState ->
-                    when (dataState) {
-                        is DataState.Success -> {
-                            val data = dataState.data
-                            _menus.postValue(data)
-                        }
-                        is DataState.Error -> _failure.postValue(Failure(dataState.error))
-                    }
-                }
+    private var selectedDate: Date = Date()
+    private val _date: MutableLiveData<Date> = MutableLiveData(Date())
+    val date: LiveData<Date>
+        get() = _date
+
+    fun loadData() {
+        CoroutineScope(Dispatchers.IO).launch {
+            menuRepository.getDates()
+                .handleException()
+                .collectDates()
+
+            menuRepository.getMenus(selectedDate)
+                .handleException()
+                .collectMenus()
         }
     }
 
-    fun fetchDates() {
+    fun setDate(date: Date) {
+        selectedDate = date
+
         viewModelScope.launch {
-            menuRepository.getDates()
-                .catch { throwable ->
-                    Log.i("MenuViewModel1", throwable.message ?: "")
-                    _failure.postValue(Failure(throwable.message ?: "Unknown error"))
-                }
-                .collect { dataState ->
-                    when (dataState) {
-                        is DataState.Success -> _dates.postValue(dataState.data)
-                        is DataState.Error -> _failure.postValue(Failure(dataState.error))
-                    }
-                }
+            menuRepository.getMenus(date)
+                .handleException()
+                .collectMenus()
         }
+    }
+
+    fun refresh() {
+        viewModelScope.launch {
+            menuRepository.fetchDates()
+                .handleException()
+                .collectDates()
+
+            menuRepository.fetchMenus(selectedDate)
+                .handleException()
+                .collectMenus()
+        }
+    }
+
+    private suspend fun Flow<DataState<List<Date>>>.collectDates() = collect { dataState ->
+        when (dataState) {
+            is DataState.Success -> {
+                val dates = dataState.data
+                _dates.postValue(dates)
+
+                if (!dates.contains(selectedDate)) {
+                    val nearestDate = dates.getNearestDate()
+
+                    setDate(nearestDate)
+                    _date.postValue(nearestDate)
+                }
+            }
+            is DataState.Error -> _failure.postValue(Failure(dataState.error))
+        }
+    }
+
+    private suspend fun Flow<DataState<List<Menu>>>.collectMenus() = collect { dataState ->
+        when (dataState) {
+            is DataState.Success -> _menus.postValue(dataState.data)
+            is DataState.Error -> _failure.postValue(Failure(dataState.error))
+        }
+    }
+
+    private fun <T> Flow<T>.handleException(): Flow<T> = catch { throwable ->
+        Log.i("MenuViewModel", throwable.message ?: "")
+        _failure.postValue(Failure(throwable.message ?: "Unknown error"))
+    }
+
+    private fun List<Date>.getNearestDate(): Date {
+        if (isEmpty()) {
+            throw IllegalArgumentException("Date list is empty")
+        }
+
+        val now = Date()
+        var distance: Long = Long.MAX_VALUE
+        var date: Date = now
+        for (d in this) {
+            val newDistance = d.time - date.time
+            val absDistance = abs(newDistance)
+            if (absDistance < distance || (absDistance == distance && newDistance > 0)) {
+                distance = absDistance
+                date = d
+            }
+        }
+
+        return date
     }
 }

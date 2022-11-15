@@ -11,7 +11,9 @@ class MenuDateListAdapter(
     val onClick: (selected: Date, position: Int) -> Unit
 ) : RecyclerView.Adapter<MenuDateListAdapter.MenuDateListViewHolder>() {
 
+    private lateinit var recyclerView: RecyclerView
     private var selected: MenuDateListAdapter.MenuDateListViewHolder? = null
+    private var selectedDate: Date? = null
     private val menuDateList: MutableList<Date> = mutableListOf()
 
     inner class MenuDateListViewHolder(
@@ -30,7 +32,12 @@ class MenuDateListAdapter(
                     return@setOnClickListener
                 }
 
+                selectedDate = date
                 onClick(date, position)
+                setSelected()
+            }
+
+            if (date == selectedDate) {
                 setSelected()
             }
         }
@@ -72,6 +79,12 @@ class MenuDateListAdapter(
         }
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+
+        this.recyclerView = recyclerView
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuDateListViewHolder {
         return MenuDateListViewHolder(
             MenuDateListItemBinding.inflate(
@@ -84,10 +97,6 @@ class MenuDateListAdapter(
 
     override fun onBindViewHolder(holder: MenuDateListViewHolder, position: Int) {
         holder.bind(menuDateList[position], position)
-
-        if (selected == null && position == 0) {
-            holder.setSelected()
-        }
     }
 
     override fun getItemCount(): Int {
@@ -98,5 +107,17 @@ class MenuDateListAdapter(
         menuDateList.clear()
         menuDateList.addAll(dates)
         notifyDataSetChanged()
+    }
+
+    fun setSelectedDate(date: Date) {
+        val index = menuDateList.indexOf(date)
+        if (index < 0) {
+            return
+        }
+
+        this.selectedDate = date
+
+        val holder = recyclerView.findViewHolderForAdapterPosition(index) ?: return
+        (holder as? MenuDateListViewHolder)?.setSelected()
     }
 }

@@ -10,10 +10,7 @@ import com.heroslender.takeawat.retrofit.result.RemoteServiceHttpError
 import com.heroslender.takeawat.retrofit.result.Result
 import com.heroslender.takeawat.retrofit.result.UnexpectedError
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 import java.util.*
 import javax.inject.Inject
 
@@ -21,22 +18,27 @@ class MenuRepositoryImpl @Inject constructor(
     private val menuDao: MenuDao,
     private val retrofitClient: RetrofitClient,
 ) : MenuRepository {
+
     override fun getMenus(date: Date): Flow<DataState<List<Menu>>> = flow {
         // Send cached data
         val findByDate = menuDao.findByDate(date.time).map { it.toMenu() }
         emit(DataState.success(findByDate))
 
+        emitAll(fetchMenus(date))
+    }.flowOn(Dispatchers.IO)
+
+    override fun fetchMenus(date: Date): Flow<DataState<List<Menu>>> = flow<DataState<List<Menu>>> {
         // Update data from the API
         val menuResult = retrofitClient.getMenu(date)
         if (menuResult is Result.Failure) {
-            handleRetrofitFailure<List<Menu>>(menuResult)
+            handleRetrofitFailure(menuResult)
             return@flow
         }
 
         val response = (menuResult as Result.Success).data
-        menuDao.insertAll(*response.map { it.toMenuEntity() }.toTypedArray())
-
         emit(DataState.success(response))
+
+        menuDao.insertAll(*response.map { it.toMenuEntity() }.toTypedArray())
     }.flowOn(Dispatchers.IO)
 
     override fun getDates(): Flow<DataState<List<Date>>> = flow {
@@ -44,10 +46,15 @@ class MenuRepositoryImpl @Inject constructor(
         val dates = menuDao.getAllDates().map { timestamp -> Date(timestamp) }
         emit(DataState.success(dates))
 
+        // Update cached data
+        emitAll(fetchDates())
+    }.flowOn(Dispatchers.IO)
+
+    override fun fetchDates(): Flow<DataState<List<Date>>> = flow<DataState<List<Date>>> {
         // Update data from the API
         val menusResult = retrofitClient.getMenus()
         if (menusResult is Result.Failure) {
-            handleRetrofitFailure<List<Date>>(menusResult)
+            handleRetrofitFailure(menusResult)
             return@flow
         }
 

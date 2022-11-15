@@ -13,7 +13,6 @@ import com.heroslender.takeawat.adapter.MenuListAdapter
 import com.heroslender.takeawat.base.BaseFragment
 import com.heroslender.takeawat.databinding.FragmentMenuBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class MenuFragment : BaseFragment<FragmentMenuBinding>() {
@@ -32,7 +31,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
     private fun setupView() {
         val menuListAdapter = MenuListAdapter()
         val menuDateListAdapter = MenuDateListAdapter { date, _ ->
-            viewModel.fetchMenus(date)
+            viewModel.setDate(date)
             binding.rvMenuList.apply {
                 startAnimation(
                     AnimationUtils.loadAnimation(
@@ -47,8 +46,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
         binding.rvDateList.adapter = menuDateListAdapter
         binding.rvMenuList.adapter = menuListAdapter
         binding.refreshMenuList.setOnRefreshListener {
-            viewModel.fetchDates()
-            viewModel.fetchMenus(Date())
+            viewModel.refresh()
         }
 
         viewModel.dates.observeForever { dates ->
@@ -69,11 +67,14 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
             }
         }
 
+        viewModel.date.observeForever {
+            menuDateListAdapter.setSelectedDate(it)
+        }
+
         viewModel.failure.observeForever {
             Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.fetchDates()
-        viewModel.fetchMenus(Date())
+        viewModel.loadData()
     }
 }
