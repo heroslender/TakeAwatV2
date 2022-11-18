@@ -15,6 +15,7 @@ class MenuListAdapter : RecyclerView.Adapter<MenuListAdapter.MenuListViewHolder>
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(menu: Menu, position: Int) {
             binding.tvMenuName.text = menu.name
+            binding.tvMenuDescrition.text = menu.description
             binding.tvHalfDose.text = NumberUtils.format(menu.halfPrice) + " €"
             binding.tvFullDose.text = NumberUtils.format(menu.price) + " €"
         }
