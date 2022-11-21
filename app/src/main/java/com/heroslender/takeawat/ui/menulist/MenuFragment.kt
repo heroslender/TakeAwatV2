@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import com.heroslender.takeawat.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.heroslender.takeawat.adapter.MenuDateListAdapter
 import com.heroslender.takeawat.adapter.MenuListAdapter
 import com.heroslender.takeawat.base.BaseFragment
@@ -23,7 +22,6 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Thread.sleep(1000)
 
         setupView()
     }
@@ -32,19 +30,16 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
         val menuListAdapter = MenuListAdapter()
         val menuDateListAdapter = MenuDateListAdapter { date, _ ->
             viewModel.setDate(date)
-            binding.rvMenuList.apply {
-                startAnimation(
-                    AnimationUtils.loadAnimation(
-                        this@MenuFragment.context,
-                        R.anim.menu_list_enter
-                    )
-                )
-                visibility = View.GONE
-            }
         }
 
         binding.rvDateList.adapter = menuDateListAdapter
         binding.rvMenuList.adapter = menuListAdapter
+        binding.rvMenuList.layoutManager = object : LinearLayoutManager(context) {
+            override fun supportsPredictiveItemAnimations(): Boolean {
+                // Fix an AIOOB Exception
+                return false
+            }
+        }
         binding.refreshMenuList.setOnRefreshListener {
             viewModel.refresh()
         }
@@ -56,15 +51,6 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
         viewModel.menus.observeForever { menus ->
             binding.refreshMenuList.isRefreshing = false
             menuListAdapter.setMenuList(menus)
-            binding.rvMenuList.apply {
-                startAnimation(
-                    AnimationUtils.loadAnimation(
-                        this@MenuFragment.context,
-                        R.anim.menu_list_leave
-                    )
-                )
-                visibility = View.VISIBLE
-            }
         }
 
         viewModel.date.observeForever {

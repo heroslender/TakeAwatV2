@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="7dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:background="@drawable/menu_list_item"
+    android:elevation="5dp"
+    android:orientation="vertical"
+    android:paddingStart="5dp"
+    android:paddingTop="2dp"
+    android:paddingEnd="7dp"
+    android:paddingBottom="2dp"
+    android:clipChildren="false" >
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:transitionName="imageView"
+        app:srcCompat="@drawable/food_icon" />
+
+    <TextView
+        android:id="@+id/tvMenuName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:transitionName="tvMenuName"
+        android:text="Costeletas à salsicheiro"
+        android:textAppearance="@style/MaterialAlertDialog.Material3.Title.Text"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tvMenuDescrition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:transitionName="tvMenuDescrition"
+        android:text="Descrição para Costeletas à salsicheiro"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:textColor="#555"
+        android:textSize="12sp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/prices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:clipChildren="false">
+
+        <TextView
+            android:id="@+id/lblFullDose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:transitionName="lblFullDose"
+            android:text="Dose"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/lblHalfDose"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvFullDose"/>
+
+        <TextView
+            android:id="@+id/tvFullDose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-3dp"
+            android:layout_marginBottom="3dp"
+            android:transitionName="tvFullDose"
+            android:text="5€"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@+id/lblFullDose"
+            app:layout_constraintEnd_toEndOf="@+id/lblFullDose"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/lblHalfDose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:transitionName="lblHalfDose"
+            android:text="1/2 Dose"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/lblFullDose"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvFullDose"/>
+
+        <TextView
+            android:id="@+id/tvHalfDose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-3dp"
+            android:transitionName="tvHalfDose"
+            android:text="3€"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@+id/lblHalfDose"
+            app:layout_constraintEnd_toEndOf="@+id/lblHalfDose"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

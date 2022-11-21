@@ -82,7 +82,7 @@ class MenuViewModel @Inject constructor(
                 _dates.postValue(dates)
 
                 if (!dates.contains(selectedDate)) {
-                    val nearestDate = dates.getNearestDate()
+                    val nearestDate = if (dates.isEmpty()) Date() else dates.getNearestDate()
 
                     setDate(nearestDate)
                     _date.postValue(nearestDate)
