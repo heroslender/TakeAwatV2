@@ -44,20 +44,20 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
             viewModel.refresh()
         }
 
-        viewModel.dates.observeForever { dates ->
+        viewModel.dates.observe(viewLifecycleOwner) { dates ->
             menuDateListAdapter.setDates(dates)
         }
 
-        viewModel.menus.observeForever { menus ->
+        viewModel.menus.observe(viewLifecycleOwner) { menus ->
             binding.refreshMenuList.isRefreshing = false
             menuListAdapter.setMenuList(menus)
         }
 
-        viewModel.date.observeForever {
+        viewModel.date.observe(viewLifecycleOwner) {
             menuDateListAdapter.setSelectedDate(it)
         }
 
-        viewModel.failure.observeForever {
+        viewModel.failure.observe(viewLifecycleOwner) {
             Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
         }
 
