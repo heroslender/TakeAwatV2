@@ -12,14 +12,14 @@
     android:paddingStart="13dp"
     android:paddingTop="5dp"
     android:paddingEnd="13dp"
-    android:paddingBottom="5dp"
-    android:theme="@style/Theme.TakeAwat">
+    android:paddingBottom="5dp">
 
     <TextView
         android:id="@+id/tvDateMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:textColor="?colorOnSecondaryContainer"
         android:text="Domingo"
         android:textSize="12sp" />
 
@@ -27,6 +27,7 @@
         android:id="@+id/tvDateDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="?colorOnSecondaryContainer"
         android:text="29 Jan"
         android:textSize="16sp" />
 </LinearLayout>

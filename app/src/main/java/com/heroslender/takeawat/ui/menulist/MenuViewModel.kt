@@ -36,7 +36,8 @@ class MenuViewModel @Inject constructor(
     val dates: LiveData<List<Date>>
         get() = _dates
 
-    private var selectedDate: Date = Date()
+    var selectedDate: Date = Date()
+        private set
     private val _date: MutableLiveData<Date> = MutableLiveData(Date())
     val date: LiveData<Date>
         get() = _date

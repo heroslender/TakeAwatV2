@@ -8,12 +8,11 @@ import com.heroslender.takeawat.databinding.MenuDateListItemBinding
 import java.util.*
 
 class MenuDateListAdapter(
+    private var selectedDate: Date? = null,
     val onClick: (selected: Date, position: Int) -> Unit
 ) : RecyclerView.Adapter<MenuDateListAdapter.MenuDateListViewHolder>() {
-
     private lateinit var recyclerView: RecyclerView
     private var selected: MenuDateListAdapter.MenuDateListViewHolder? = null
-    private var selectedDate: Date? = null
     private val menuDateList: MutableList<Date> = mutableListOf()
 
     inner class MenuDateListViewHolder(
@@ -44,7 +43,9 @@ class MenuDateListAdapter(
 
         fun setSelected() {
             // Set the selected background to the current item
-            binding.rvDateListItem.setBackgroundResource(R.drawable.menu_date_list_item_selected)
+            binding.root.post {
+                binding.rvDateListItem.setBackgroundResource(R.drawable.menu_date_list_item_selected)
+            }
             // Remove the selected background from the previous selected item
             selected?.binding?.rvDateListItem?.setBackgroundResource(R.drawable.menu_date_list_item)
 

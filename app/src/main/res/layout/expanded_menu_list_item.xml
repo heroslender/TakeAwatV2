@@ -23,7 +23,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:transitionName="imageView"
-        app:srcCompat="@drawable/food_icon" />
+        app:srcCompat="@drawable/food_icon"
+        app:tint="?colorOnBackground" />
 
     <TextView
         android:id="@+id/tvMenuName"
@@ -42,7 +43,7 @@
         android:transitionName="tvMenuDescrition"
         android:text="Descrição para Costeletas à salsicheiro"
         android:textAppearance="?attr/textAppearanceBodyMedium"
-        android:textColor="#555"
+        android:textColor="?colorOnBackground"
         android:textSize="12sp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

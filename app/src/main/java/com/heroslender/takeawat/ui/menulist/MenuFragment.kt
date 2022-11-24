@@ -28,7 +28,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
 
     private fun setupView() {
         val menuListAdapter = MenuListAdapter()
-        val menuDateListAdapter = MenuDateListAdapter { date, _ ->
+        val menuDateListAdapter = MenuDateListAdapter(viewModel.selectedDate) { date, _ ->
             viewModel.setDate(date)
         }
 
