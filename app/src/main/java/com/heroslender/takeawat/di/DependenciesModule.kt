@@ -27,7 +27,7 @@ object DependenciesModule {
     fun provideRoomDatabase(
         @ApplicationContext ctx: Context
     ): AppDatabase {
-        return Room.databaseBuilder(ctx, AppDatabase::class.java, "db").build()
+        return Room.databaseBuilder(ctx, AppDatabase::class.java, "db").fallbackToDestructiveMigration().build()
     }
 
     @Provides

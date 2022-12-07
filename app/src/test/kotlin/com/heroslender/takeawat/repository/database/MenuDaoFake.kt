@@ -17,9 +17,15 @@ class MenuDaoFake : MenuDao {
         return emptyList()
     }
 
-    override fun insertAll(vararg menu: MenuEntity) {
+    override fun insertAll(menu: List<MenuEntity>) {
     }
 
     override fun delete(menu: MenuEntity) {
+    }
+
+    override fun delete() {
+    }
+
+    override fun delete(date: Long) {
     }
 }

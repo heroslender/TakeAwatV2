@@ -38,7 +38,8 @@ class MenuRepositoryImpl @Inject constructor(
         val response = (menuResult as Result.Success).data
         emit(DataState.success(response))
 
-        menuDao.insertAll(*response.map { it.toMenuEntity() }.toTypedArray())
+        menuDao.delete(date.time)
+        menuDao.insertAll(response.map { it.toMenuEntity() })
     }.flowOn(Dispatchers.IO)
 
     override fun getDates(): Flow<DataState<List<Date>>> = flow {
@@ -61,8 +62,9 @@ class MenuRepositoryImpl @Inject constructor(
         val response = (menusResult as Result.Success).data
         emit(DataState.success(response.keys.toList().sorted()))
 
+        menuDao.delete()
         for (list in response.values) {
-            menuDao.insertAll(*list.map { it.toMenuEntity() }.toTypedArray())
+            menuDao.insertAll(list.map { it.toMenuEntity() })
         }
     }.flowOn(Dispatchers.IO)
 

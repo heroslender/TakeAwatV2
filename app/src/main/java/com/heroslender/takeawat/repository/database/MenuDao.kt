@@ -17,8 +17,14 @@ interface MenuDao {
     fun findByDate(date: Long): List<MenuEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg menu: MenuEntity)
+    fun insertAll(menu: List<MenuEntity>)
 
     @Delete
     fun delete(menu: MenuEntity)
+
+    @Query("DELETE FROM menus")
+    fun delete()
+
+    @Query("DELETE FROM menus WHERE date=:date")
+    fun delete(date: Long)
 }
