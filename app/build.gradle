@@ -8,17 +8,17 @@ plugins {
 def retrofitVersion = '2.9.0'
 def okhttpInterceptorVersion = '4.6.0'
 def rxAdapterVersion = '2.9.0'
-def lifecycle_version = "2.5.1"
+def lifecycle_version = "2.8.6"
 def coroutines_version = "1.6.2"
-def room_version = "2.4.3"
+def room_version = "2.6.1"
 
 android {
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.heroslender.takeawat"
         minSdk 21
-        targetSdk 32
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -37,26 +37,26 @@ android {
         }
 
         debug {
-            buildConfigField 'String', 'BASE_URL', '"http://10.0.2.2:25001"'
+            buildConfigField 'String', 'BASE_URL', '"http://192.168.1.16:25001"'
         }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     namespace 'com.heroslender.takeawat'
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation "androidx.activity:activity-ktx:1.5.0"
-    implementation "androidx.fragment:fragment-ktx:1.5.3"
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation "androidx.activity:activity-ktx:1.9.2"
+    implementation "androidx.fragment:fragment-ktx:1.8.4"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.google.android.material:material:1.6.1'
@@ -75,8 +75,8 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // Dependency Injection Components
-    implementation "com.google.dagger:hilt-android:2.42"
-    kapt "com.google.dagger:hilt-android-compiler:2.42"
+    implementation "com.google.dagger:hilt-android:2.52"
+    kapt "com.google.dagger:hilt-compiler:2.52"
 
     // Retrofit components
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -89,8 +89,8 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0-M1'
     testImplementation 'org.mockito:mockito-core:4.6.1'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4-beta01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 }
 
 tasks.withType(Test) {
