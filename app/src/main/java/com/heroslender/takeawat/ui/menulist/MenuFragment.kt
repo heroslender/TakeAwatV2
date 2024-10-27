@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.heroslender.takeawat.R
 import com.heroslender.takeawat.adapter.MenuDateListAdapter
 import com.heroslender.takeawat.adapter.MenuListAdapter
 import com.heroslender.takeawat.base.BaseFragment
@@ -27,6 +29,10 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
     }
 
     private fun setupView() {
+        binding.btnProfile.setOnClickListener {
+            it.findNavController().navigate(R.id.loginFragment)
+        }
+
         val menuListAdapter = MenuListAdapter()
         val menuDateListAdapter = MenuDateListAdapter(viewModel.selectedDate) { date, _ ->
             viewModel.setDate(date)

@@ -5,6 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rvDateList"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/btnReturn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:adjustViewBounds="true"
+            android:layout_marginStart="10dp"
+            android:contentDescription="Return"
+            android:src="@drawable/logo"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/btnProfile"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="Profile"
+            android:background="@null"
+            app:tint="?colorOnPrimaryContainer"
+            android:src="@drawable/baseline_login_32"/>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDateList"
         android:layout_width="0dp"
@@ -17,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header"
         tools:listitem="@layout/menu_date_list_item" />
 
     <TextView
